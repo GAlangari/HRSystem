@@ -14,6 +14,16 @@ namespace HRSystem.BusinessLayer
     {
         public static readonly CRUD_Operations Instance = new CRUD_Operations();
 
+        public int CheckEmployeeRole(int employeeId)
+        {
+            var con = GetConnection();
+            var cmd = new SqlCommand(ConstantsQuery.SelectEmployeeRole, con);
+
+            cmd.Parameters.AddWithValue("EmployeeID", employeeId);
+
+            var result = GetEmployeeRole(cmd, con);
+            return result;
+        }
         public int AddEmployee(Employee employee)
         {
             var con = GetConnection();
@@ -31,12 +41,23 @@ namespace HRSystem.BusinessLayer
         public List<Employee> GetEmployees(int DepartmentId)
         {
             var con = GetConnection();
-            var cmd = new SqlCommand(ConstantsQuery.DepartmentEmployees);
+            var cmd = new SqlCommand(ConstantsQuery.DepartmentEmployees, con);
 
             cmd.Parameters.AddWithValue("Department_id", DepartmentId);
 
             var result = GetDepartmentEmployees(cmd, con);
             return result;
+        }
+        public Department GetDepartment(int DepartmentId)
+        {
+            var con = GetConnection();
+            var cmd = new SqlCommand(ConstantsQuery.DepartmentDetails, con);
+
+            cmd.Parameters.AddWithValue("DepartmentID", DepartmentId);
+
+            var details = GetDepartmentDetails(cmd, con);
+            return details;
+
         }
     }
 }

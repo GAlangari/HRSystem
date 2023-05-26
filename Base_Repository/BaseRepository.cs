@@ -23,7 +23,20 @@ namespace HRSystem.Base_Repository
             var result = new SqlConnection(connectionString);
             return result;
         }
-
+        
+        public int GetEmployeeRole(SqlCommand command, SqlConnection connection)
+        {
+            try
+            {
+                connection.Open();
+                var result = (int)command.ExecuteScalar();
+                return result;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
         public int InsertEmployee(SqlCommand command, SqlConnection connection)
         {
             try
@@ -49,8 +62,9 @@ namespace HRSystem.Base_Repository
                     var employee = new Employee();
                     employee.EmployeeID = Convert.ToInt32(reader[0]);
                     employee.EmployeeName = reader[1].ToString();
-                    employee.Department_id = Convert.ToInt32(reader[2]);
+                    employee.Salary = Convert.ToInt32(reader[2]);
                     employee.Role_id = Convert.ToInt32(reader[3]);
+                    employee.Department_id = Convert.ToInt32(reader[4]);
 
                     list.Add(employee);
                 }
@@ -62,5 +76,27 @@ namespace HRSystem.Base_Repository
                 connection.Close();
             }
         }
+        public Department GetDepartmentDetails (SqlCommand command, SqlConnection connection)
+        {
+            var department = new Department();
+            try
+            {
+                connection.Open();
+                var reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    department.DepartmentEmployeeNum = Convert.ToInt32(reader[0]);
+                    department.DepartmentID = Convert.ToInt32(reader[1]);
+                    department.DepartmentName = reader[2].ToString();
+                }
+                return department;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        
     }
 }

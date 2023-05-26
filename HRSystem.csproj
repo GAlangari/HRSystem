@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base_Repository\BaseRepository.cs" />
+    <Compile Include="Base_Repository\Sqlcommand.cs" />
     <Compile Include="BusinessLayer\CRUD_Operations.cs" />
     <Compile Include="Constants\ConstantsQuery.cs" />
     <Compile Include="Entities\Department.cs" />

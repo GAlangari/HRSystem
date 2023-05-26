@@ -10,5 +10,6 @@ namespace HRSystem.Entities
     {
         public int DepartmentID { get; set; }
         public string DepartmentName { get; set; }
+        public int DepartmentEmployeeNum { get; set; }
     }
 }
