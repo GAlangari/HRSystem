@@ -13,46 +13,89 @@ namespace HRSystem
         public static readonly CRUD_Operations operation = CRUD_Operations.Instance;
         static void Main(string[] args)
         {
-            //Employee emp = new Employee();
-            //Console.WriteLine("Write Employee name: ");
-            //emp.EmployeeName = Console.ReadLine();
+            string employeeId;
+            string choice;
 
-            //Console.WriteLine("Write Employee salary: ");
-            //emp.Salary = Convert.ToInt32(Console.ReadLine());
+            while (true)
+            {
+                Console.WriteLine("PLease enter your ID to proceed or press enter to exit: ");
+                employeeId = Console.ReadLine();
 
-            //Console.WriteLine("Write Employee Department Id: ");
-            //emp.Department_id = Convert.ToInt32(Console.ReadLine());
+                if (string.IsNullOrWhiteSpace(employeeId))
+                {
+                    break;
+                }
 
-            //Console.WriteLine("Write Employee Role Id: ");
-            //emp.Role_id = Convert.ToInt32(Console.ReadLine());
+                var employeeRole = operation.CheckEmployeeRole(Convert.ToInt32(employeeId));
 
-            //var result = operation.AddEmployee(emp);
-            //if(result > 0)
-            //{
-            //    Console.WriteLine("Employee inserted");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("Failed to add employee");
-            //}
+                if (employeeRole == 1)
+                {
+                    do
+                    {
+                        var stringBuilder = new StringBuilder();
+                        stringBuilder.Append('-', 20);
 
-            //Console.WriteLine("Enter Department ID to display employees: ");
-            //var deptId = Convert.ToInt32(Console.ReadLine());
-            //List<Employee> employees = operation.GetEmployees(deptId);
+                        Console.WriteLine("Please select an option from the below menu or press enter to logout: \n" + stringBuilder);
+                        Console.WriteLine("1- Create a new employee\n2- List department employees\n3- List Department details\n4- Delete an employee\n" + stringBuilder);
+                        choice = Console.ReadLine();
 
-            //foreach(var e in employees)
-            //{
-            //    Console.WriteLine(e.EmployeeID + "\t" + e.EmployeeName + "\t" + e.Salary + "\t" + e.Department_id + "\t" + e.Role_id);
-            //}
+                        switch (choice)
+                        {
+                            case "1":
+                                Employee employee = new Employee();
 
-            Console.WriteLine("Enter Department ID to display details: ");
-            var deptId = Convert.ToInt32(Console.ReadLine());
-            var Dept = operation.GetDepartment(deptId);
+                                Console.WriteLine("Enter employee name: ");
+                                employee.EmployeeName = Console.ReadLine();
 
-            Console.WriteLine(Dept.DepartmentID + "\t" + Dept.DepartmentName +"\t" + Dept.DepartmentEmployeeNum);
+                                Console.WriteLine("Enter employee salary: ");
+                                employee.Salary = Convert.ToInt32(Console.ReadLine());
 
-            Console.ReadLine();
+                                Console.WriteLine("Enter employee role (1- manager, 2- employee): ");
+                                employee.Role_id = Convert.ToInt32(Console.ReadLine());
 
+                                Console.WriteLine("Enter employee department Id: ");
+                                employee.Department_id = Convert.ToInt32(Console.ReadLine());
+
+                                var result = operation.AddEmployee(employee);
+                                if (result > 0)
+                                {
+                                    Console.WriteLine("Employee added successfully!\n");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Employee couldn't be inserted\n");
+                                }
+                                break;
+                            case "2":
+                                Console.WriteLine("Enter department Id to list its employees:");
+                                var deptId = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine(stringBuilder + "\nEmployee ID\tEmployee Name\t\tEmployee Salary\t\tRole ID\t\tDepartment ID");
+                                var employees = operation.GetEmployees(deptId);
+                                foreach(var emp in employees)
+                                {
+                                    Console.WriteLine(emp.EmployeeID + "\t\t" + emp.EmployeeName + (emp.EmployeeName.Length < 7? "\t\t\t": "\t\t") + emp.Salary + "\t\t\t" + emp.Role_id + "\t\t" + emp.Department_id);
+                                }
+                                break;
+                            case "3":
+                                Console.WriteLine("Enter department Id to list its details:");
+                                deptId = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine(stringBuilder + "\nDepartment ID\tDepartment Name\t\tNumber of employees");
+                                var department = operation.GetDepartment(deptId);
+                                Console.WriteLine(department.DepartmentID + "\t\t" + department.DepartmentName + (department.DepartmentName.Length < 7 ? "\t\t\t" : "\t\t") + department.DepartmentEmployeeNum);
+                                break;
+                            case "4":
+
+                                break;
+                        }
+                    } while (!string.IsNullOrWhiteSpace(choice));
+                    
+
+                } else
+                {
+
+                }
+
+            }
         }
     }
 }
