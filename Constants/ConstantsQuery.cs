@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace HRSystem.Constants
 {
-    class ConstantsQuery
+    public class ConstantsQuery
     {
+        /// <summary>
+        /// use ConstantsQuery for get data from Database and use it with Action to desplay them
+        /// </summary>
+
         public const string InsertEmployee = "INSERT INTO Employee (EmployeeName, Salary, Role_id, Department_id)" +
             "VALUES (@EmployeeName, @Salary, @Role_id, @Department_id)";
 
@@ -18,6 +22,17 @@ namespace HRSystem.Constants
         public const string DepartmentEmployees = "SELECT * FROM Employee WHERE Department_id = @Department_id";
 
         public const string SelectEmployeeRole = "SELECT Role_Id FROM Employee WHERE EmployeeID = @EmployeeID";
-        
+
+        public const string DeleteEmployee = "DELETE FROM Employee WHERE EmployeeID = @EmployeeID";
+
+        public const string EmployeeDetails = "SELECT * FROM Employee WHERE EmployeeID = @EmployeeID";
+
+        public const string UpdateDepartment = "UPDATE Employee SET Department_id = @Department_id WHERE EmployeeID = @EmployeeID";
+
+        //public const string EmployeeDetails = "SELECT Employee.EmployeeName, Employee.Salary, Department.DepartmentName, Role.RoleName FROM Employee ,Department,Role" +
+        //"WHERE Employee.Department_id = Department.DepartmentID AND Employee.Role_id  = Role.RoleId AND EmployeeID = @EmployeeID;";
+
+
     }
 }
+

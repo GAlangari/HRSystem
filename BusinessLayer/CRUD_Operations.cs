@@ -12,8 +12,13 @@ namespace HRSystem.BusinessLayer
 {
     public class CRUD_Operations : BaseRepository
     {
+        /// <summary>
+        /// CRUD Operation is business layer maintains business rules.
+        /// </summary>
+        /// 
         public static readonly CRUD_Operations Instance = new CRUD_Operations();
 
+        # region Check employee role
         public int CheckEmployeeRole(int employeeId)
         {
             var con = GetConnection();
@@ -24,30 +29,39 @@ namespace HRSystem.BusinessLayer
             var result = GetEmployeeRole(cmd, con);
             return result;
         }
+        #endregion
+
+        #region Insert new employee
         public int AddEmployee(Employee employee)
         {
             var con = GetConnection();
             var cmd = new SqlCommand(ConstantsQuery.InsertEmployee, con);
 
-            cmd.Parameters.AddWithValue("EmployeeName", employee.EmployeeName);
+            cmd.Parameters.AddWithValue("EmployeeName", employee.EmployeeName); //same Constatn & Entity
             cmd.Parameters.AddWithValue("Salary", employee.Salary);
             cmd.Parameters.AddWithValue("Role_id", employee.Role_id);
             cmd.Parameters.AddWithValue("Department_id", employee.Department_id);
 
-            var result = InsertEmployee(cmd, con);
+            var result = ExecuteNonQueryEmployee(cmd, con);
             return result;
 
         }
+        #endregion
+
+        #region List all employee in department
         public List<Employee> GetEmployees(int DepartmentId)
         {
             var con = GetConnection();
-            var cmd = new SqlCommand(ConstantsQuery.DepartmentEmployees, con);
+            var cmd = new SqlCommand(ConstantsQuery.DepartmentEmployees, con); 
 
             cmd.Parameters.AddWithValue("Department_id", DepartmentId);
 
             var result = GetDepartmentEmployees(cmd, con);
             return result;
         }
+        #endregion
+
+        #region List department details
         public Department GetDepartment(int DepartmentId)
         {
             var con = GetConnection();
@@ -59,5 +73,49 @@ namespace HRSystem.BusinessLayer
             return details;
 
         }
+        #endregion
+
+        #region Delete employee
+        public int DeleteEmployee(int EmployeeId)
+        {
+            var con = GetConnection();
+            var cmd = new SqlCommand(ConstantsQuery.DeleteEmployee, con);
+
+            cmd.Parameters.AddWithValue("EmployeeID", EmployeeId);
+
+            var result = ExecuteNonQueryEmployee(cmd, con);
+            return result;
+
+        }
+        #endregion
+
+        #region List employee details
+        public Employee GetEmployeeDetails(int EmployeeId)
+        {
+            var con = GetConnection();
+            var cmd = new SqlCommand(ConstantsQuery.EmployeeDetails, con);
+
+            cmd.Parameters.AddWithValue("EmployeeID", EmployeeId);
+
+            var result = GetEmployeeDetails(cmd, con);
+            return result;
+
+        }
+        #endregion
+
+        #region Update employee department
+        public int UpdateEmployeeDepartment(int EmployeeId, int Department_id)
+        {
+
+            var con = GetConnection();
+            var cmd = new SqlCommand(ConstantsQuery.UpdateDepartment, con);
+
+            cmd.Parameters.AddWithValue("@EmployeeId", EmployeeId);
+            cmd.Parameters.AddWithValue("@Department_id", Department_id);
+
+            var result = ExecuteNonQueryEmployee(cmd, con);
+            return result;
+        }
+        #endregion
     }
 }

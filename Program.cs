@@ -25,7 +25,7 @@ namespace HRSystem
                 {
                     break;
                 }
-
+                    
                 var employeeRole = operation.CheckEmployeeRole(Convert.ToInt32(employeeId));
 
                 if (employeeRole == 1)
@@ -84,7 +84,17 @@ namespace HRSystem
                                 Console.WriteLine(department.DepartmentID + "\t\t" + department.DepartmentName + (department.DepartmentName.Length < 7 ? "\t\t\t" : "\t\t") + department.DepartmentEmployeeNum);
                                 break;
                             case "4":
-
+                                Console.WriteLine("Enter the employee ID to delete it: ");
+                                var empid = Convert.ToInt32(Console.ReadLine());
+                                result = operation.DeleteEmployee(empid);
+                                if (result > 0)
+                                {
+                                    Console.WriteLine("Employee deleted successfully!\n");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Employee couldn't be deleted\n");
+                                }
                                 break;
                         }
                     } while (!string.IsNullOrWhiteSpace(choice));
@@ -92,7 +102,40 @@ namespace HRSystem
 
                 } else
                 {
+                    do
+                    {
 
+                        var stringBuilder = new StringBuilder();
+                        stringBuilder.Append('-', 20);
+
+                        Console.WriteLine("Please select an option from the below menu or press enter to logout: \n" + stringBuilder);
+                        Console.WriteLine("1- List your details\n2- Change your department\n" + stringBuilder);
+                        choice = Console.ReadLine();
+                        switch (choice)
+                        {
+                            case "1":
+                                //Console.WriteLine("Enter your Id to list its details:");
+                                //var empId = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine(stringBuilder + "\nEmployee ID\tEmployee Name\t\tEmployee Salary\t\tRole ID\t\tDepartment ID");
+                                var employee = operation.GetEmployeeDetails(Convert.ToInt32(employeeId));
+                                Console.WriteLine(employee.EmployeeID + "\t\t" + employee.EmployeeName + (employee.EmployeeName.Length < 7 ? "\t\t\t" : "\t\t") + employee.Salary + "\t\t\t" + employee.Role_id + "\t\t" + employee.Department_id);
+                                break;
+                            case "2":
+                                Console.WriteLine("Enter department Id to change your department which is 1-HR , 2-IT, 3-Business:");
+                                var deptId = Convert.ToInt32(Console.ReadLine());
+                                //var employees = operation.GetEmployees(deptId);
+                                var result = operation.UpdateEmployeeDepartment(Convert.ToInt32(employeeId), deptId);
+                                if (result > 0)
+                                {
+                                    Console.WriteLine("Department updated successfully!\n");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Department couldn't be updated\n");
+                                }
+                                break;
+                        }
+                    } while (!string.IsNullOrWhiteSpace(choice));
                 }
 
             }
