@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HRSystem
 {
-    class Program
+    public class Program
     {
         public static readonly CRUD_Operations operation = CRUD_Operations.Instance;
         static void Main(string[] args)
@@ -53,7 +53,7 @@ namespace HRSystem
                                 Console.WriteLine("Enter employee role (1- manager, 2- employee): ");
                                 employee.Role_id = Convert.ToInt32(Console.ReadLine());
 
-                                Console.WriteLine("Enter employee department Id: ");
+                                Console.WriteLine("Enter employee department Id (1- IT, 2- Human Resources, 3- Accounting, 4- Business): ");
                                 employee.Department_id = Convert.ToInt32(Console.ReadLine());
 
                                 var result = operation.AddEmployee(employee);
@@ -67,7 +67,7 @@ namespace HRSystem
                                 }
                                 break;
                             case "2":
-                                Console.WriteLine("Enter department Id to list its employees:");
+                                Console.WriteLine("Enter department Id to list its employees (1- IT, 2- Human Resources, 3- Accounting, 4- Business):");
                                 var deptId = Convert.ToInt32(Console.ReadLine());
                                 Console.WriteLine(stringBuilder + "\nEmployee ID\tEmployee Name\t\tEmployee Salary\t\tRole ID\t\tDepartment ID");
                                 var employees = operation.GetEmployees(deptId);
@@ -77,7 +77,7 @@ namespace HRSystem
                                 }
                                 break;
                             case "3":
-                                Console.WriteLine("Enter department Id to list its details:");
+                                Console.WriteLine("Enter department Id to list its details (1- IT, 2- Human Resources, 3- Accounting, 4- Business):");
                                 deptId = Convert.ToInt32(Console.ReadLine());
                                 Console.WriteLine(stringBuilder + "\nDepartment ID\tDepartment Name\t\tNumber of employees");
                                 var department = operation.GetDepartment(deptId);
@@ -114,16 +114,13 @@ namespace HRSystem
                         switch (choice)
                         {
                             case "1":
-                                //Console.WriteLine("Enter your Id to list its details:");
-                                //var empId = Convert.ToInt32(Console.ReadLine());
                                 Console.WriteLine(stringBuilder + "\nEmployee ID\tEmployee Name\t\tEmployee Salary\t\tRole ID\t\tDepartment ID");
                                 var employee = operation.GetEmployeeDetails(Convert.ToInt32(employeeId));
                                 Console.WriteLine(employee.EmployeeID + "\t\t" + employee.EmployeeName + (employee.EmployeeName.Length < 7 ? "\t\t\t" : "\t\t") + employee.Salary + "\t\t\t" + employee.Role_id + "\t\t" + employee.Department_id);
                                 break;
                             case "2":
-                                Console.WriteLine("Enter department Id to change your department which is 1-HR , 2-IT, 3-Business:");
+                                Console.WriteLine("Enter department Id to change your department (1- IT, 2- Human Resources, 3- Accounting, 4- Business):");
                                 var deptId = Convert.ToInt32(Console.ReadLine());
-                                //var employees = operation.GetEmployees(deptId);
                                 var result = operation.UpdateEmployeeDepartment(Convert.ToInt32(employeeId), deptId);
                                 if (result > 0)
                                 {

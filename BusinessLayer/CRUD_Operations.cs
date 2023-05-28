@@ -37,7 +37,7 @@ namespace HRSystem.BusinessLayer
             var con = GetConnection();
             var cmd = new SqlCommand(ConstantsQuery.InsertEmployee, con);
 
-            cmd.Parameters.AddWithValue("EmployeeName", employee.EmployeeName); //same Constatn & Entity
+            cmd.Parameters.AddWithValue("EmployeeName", employee.EmployeeName); 
             cmd.Parameters.AddWithValue("Salary", employee.Salary);
             cmd.Parameters.AddWithValue("Role_id", employee.Role_id);
             cmd.Parameters.AddWithValue("Department_id", employee.Department_id);
